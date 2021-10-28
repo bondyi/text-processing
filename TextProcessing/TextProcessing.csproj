@@ -41,16 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concordance\ConcordanceBuilder.cs" />
+    <Compile Include="Concordance\ConcordanceString.cs" />
+    <Compile Include="Concordance\ConcordanceWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PunctuationMark.cs" />
-    <Compile Include="Sentence.cs" />
-    <Compile Include="Symbol.cs" />
-    <Compile Include="Text.cs" />
-    <Compile Include="TextComponent.cs" />
+    <Compile Include="TextItems\PunctuationMark.cs" />
+    <Compile Include="TextItems\Sentence.cs" />
+    <Compile Include="TextItems\Symbol.cs" />
+    <Compile Include="TextItems\Text.cs" />
     <Compile Include="TextParser.cs" />
-    <Compile Include="TypeSentence.cs" />
-    <Compile Include="TypeSymbol.cs" />
-    <Compile Include="Word.cs" />
+    <Compile Include="TextItems\Enums\TypeSentence.cs" />
+    <Compile Include="TextItems\Enums\TypeSymbol.cs" />
+    <Compile Include="TextItems\Word.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
