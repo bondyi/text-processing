@@ -8,6 +8,7 @@ namespace TextProcessing
 {
     public static class TextParser
     {
+        //TEXT ITEMS
         public static Text CreateText(string text) => new Text(text);
         public static Text CreateText(string[] text) => new Text(text);
 
@@ -83,14 +84,24 @@ namespace TextProcessing
             return symbols;
         }
 
-        internal static List<ConcordanceWord> GetConcordanceWords(string data, int id)
+        //CONCORDANCE
+        internal static List<ConcordanceString> GetConcordanceStrings(string[] data)
         {
-            var concordanceWords = new List<ConcordanceWord>();
+            var listData = data.ToList();
+            var concordanceStrings = new List<ConcordanceString>(listData.Count);
 
-            var splittedWords = data.Split(' ', '.', ',', '-', ':', ';', '!', '?', '\t');
-            foreach (var splittedWord in splittedWords) concordanceWords.Add(new ConcordanceWord(splittedWord, id));
+            foreach (var item in listData)
+            {
+                char[] separators = { ' ', ',', '.', '-', '(', ')', '!', '?', ':', ';', '\t' };
+                var splittedWords = item.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
+                foreach (var splittedWord in splittedWords)
+                {
+                    var id = new List<int> { listData.IndexOf(item) };
+                    concordanceStrings.Add(new ConcordanceString(splittedWord.ToLower(), id, 0));
+                }
+            }
 
-            return concordanceWords;
+            return concordanceStrings;
         }
     }
 }
