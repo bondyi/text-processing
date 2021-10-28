@@ -1,17 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using TextProcessing.TextItems;
+using TextProcessing.Concordance;
+
 namespace TextProcessing
 {
     public static class TextParser
     {
-        public static List<Sentence> ParseText(string text)
-        {
-            var words = new List<string>();
-            var sentences = new List<Sentence>();
+        public static Text CreateText(string text) => new Text(text);
+        public static Text CreateText(string[] text) => new Text(text);
 
-            var lastSymbol = text.Last();
-            if (lastSymbol != '.' && lastSymbol != '!' && lastSymbol != '?') text += '.';
+        internal static List<Sentence> GetSentences(string text)
+        {
+            var sentences = new List<Sentence>();
+            var words = new List<string>();
+
+            if (!char.IsPunctuation(text.Last())) text += '.';
 
             var splittedWords = text.Split(' ');
             for (int i = 0; i < splittedWords.Length; ++i)
@@ -37,23 +42,24 @@ namespace TextProcessing
             return sentences;
         }
 
-        public static List<Word> ParseSentence(string sentence)
+        internal static List<Word> GetWords(string sentence)
         {
             var words = new List<Word>();
 
-            foreach (var splittedWord in sentence.Split(' '))
+            if (!char.IsPunctuation(sentence.Last())) sentence += '.';
+
+            var splittedWords = sentence.Split(' ').ToList();
+            foreach (var splittedWord in splittedWords)
             {
-                if (char.IsPunctuation(splittedWord.Last()))
-                {
-                    words.Add(new Word(splittedWord.Remove(splittedWord.Length - 1, 1)));
-                }
-                else words.Add(new Word(splittedWord));
+                words.Add(char.IsPunctuation(splittedWord.Last()) ? 
+                    new Word(splittedWord.Remove(splittedWord.Length - 1)) :
+                    new Word(splittedWord));
             }
 
             return words;
         }
 
-        public static Dictionary<int, PunctuationMark> GetPunctuationMarks(string sentence)
+        internal static Dictionary<int, PunctuationMark> GetPunctuationMarks(string sentence)
         {
             var punctuationMarks = new Dictionary<int, PunctuationMark>();
 
@@ -70,15 +76,21 @@ namespace TextProcessing
             return punctuationMarks;
         }
 
-        public static List<Symbol> ParseWord(string word)
+        internal static List<Symbol> GetSymbols(string word)
         {
             var symbols = new List<Symbol>();
-            foreach (var symbol in word.ToCharArray())
-            {
-                symbols.Add(new Symbol(symbol));
-            }
-
+            foreach (var symbol in word.ToCharArray()) symbols.Add(new Symbol(symbol));
             return symbols;
+        }
+
+        internal static List<ConcordanceWord> GetConcordanceWords(string data, int id)
+        {
+            var concordanceWords = new List<ConcordanceWord>();
+
+            var splittedWords = data.Split(' ', '.', ',', '-', ':', ';', '!', '?', '\t');
+            foreach (var splittedWord in splittedWords) concordanceWords.Add(new ConcordanceWord(splittedWord, id));
+
+            return concordanceWords;
         }
     }
 }
