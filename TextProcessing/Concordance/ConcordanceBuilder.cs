@@ -5,48 +5,64 @@ namespace TextProcessing.Concordance
 {
     public class ConcordanceBuilder
     {
-        public List<ConcordanceString> ConcordanceStrings { get; private set; }
+        public List<ConcordanceWord> Words { get; private set; }
 
         public ConcordanceBuilder(string[] data)
         {
-            ConcordanceStrings = TextParser.GetConcordanceStrings(data);
+            Words = TextParser.GetWords(data);
         }
 
         public List<string> CreateConcordance()
         {
             var uniqueWords = new List<string>();
-            foreach (var concordanceString in ConcordanceStrings)
-            {
-                uniqueWords.Add(concordanceString.Word.Data);
-            }
 
+            foreach (var word in Words)
+            {
+                uniqueWords.Add(word.Data);
+            }
             uniqueWords = uniqueWords.Distinct().ToList();
 
             var concordance = new List<string>(uniqueWords.Count);
-            var uniqueConcordanceStrings = new List<ConcordanceString>();
+            var uniqueConcordanceWords = new List<ConcordanceWord>();
+
             foreach (var uniqueWord in uniqueWords)
             {
-                uniqueConcordanceStrings.Add(new ConcordanceString(uniqueWord, new List<int>(), 0));
+                uniqueConcordanceWords.Add(new ConcordanceWord(uniqueWord, new List<int>(), 0));
             }
 
-            foreach (var uniqueConcordanceString in uniqueConcordanceStrings)
+            foreach (var uniqueWord in uniqueConcordanceWords)
             {
-                foreach (var concordanceString in ConcordanceStrings)
+                foreach (var word in Words)
                 {
-                    if (uniqueConcordanceString.Word.Data == concordanceString.Word.Data)
+                    if (uniqueWord.Data == word.Data)
                     {
-                        uniqueConcordanceString.Word.MeetingCount++;
-                        uniqueConcordanceString.Word.ID.Add(concordanceString.Word.ID[0]);
+                        uniqueWord.MeetingCount++;
+                        uniqueWord.ID.Add(word.ID[0]);
                     }
                 }
 
-                uniqueConcordanceString.Word.ID = uniqueConcordanceString.Word.ID.Distinct().ToList();
-                concordance.Add(uniqueConcordanceString.ToString());
+                uniqueWord.ID = uniqueWord.ID.Distinct().ToList();
+                concordance.Add(uniqueWord.ToString());
             }
-
             concordance.Sort();
 
-            return concordance;
+            List<string> finalConcordance = new List<string>();
+            char firstSymbol = concordance[0][0];
+            finalConcordance.Add(firstSymbol.ToString().ToUpper());
+
+            foreach(var masseges in concordance)
+            {
+                if (masseges[0] != firstSymbol)
+                {
+                    finalConcordance.Add(" ");
+                    firstSymbol = masseges[0];
+                    finalConcordance.Add(firstSymbol.ToString().ToUpper());
+
+                }
+                finalConcordance.Add(" " + masseges);
+            }
+
+            return finalConcordance;
         }
     }
 }

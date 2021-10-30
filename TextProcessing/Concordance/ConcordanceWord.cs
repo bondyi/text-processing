@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace TextProcessing.Concordance
 {
@@ -13,6 +14,17 @@ namespace TextProcessing.Concordance
             Data = data;
             ID = id;
             MeetingCount = meetingCount;
+        }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(Data + ' ');
+            for (int i = 0; i < 15 - Data.Length; i++) stringBuilder.Append('.');
+            stringBuilder.Append($" {MeetingCount} : ");
+            for (int i = 0; i < ID.Count; ++i) ID[i] += 1;
+            stringBuilder.Append(string.Join(" ", ID));
+            return stringBuilder.ToString();
         }
     }
 }

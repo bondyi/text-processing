@@ -85,10 +85,10 @@ namespace TextProcessing
         }
 
         //CONCORDANCE
-        internal static List<ConcordanceString> GetConcordanceStrings(string[] data)
+        internal static List<ConcordanceWord> GetWords(string[] data)
         {
             var listData = data.ToList();
-            var concordanceStrings = new List<ConcordanceString>(listData.Count);
+            var concordanceWords = new List<ConcordanceWord>(listData.Count);
 
             foreach (var item in listData)
             {
@@ -97,11 +97,11 @@ namespace TextProcessing
                 foreach (var splittedWord in splittedWords)
                 {
                     var id = new List<int> { listData.IndexOf(item) };
-                    concordanceStrings.Add(new ConcordanceString(splittedWord.ToLower(), id, 0));
+                    concordanceWords.Add(new ConcordanceWord(splittedWord.ToLower(), id, 0));
                 }
             }
 
-            return concordanceStrings;
+            return concordanceWords;
         }
     }
 }
