@@ -24,24 +24,26 @@ namespace TextProcessing.TextItems
 
         public List<Sentence> SortByWordCount()
         {
-            var sortedSentences = new List<Sentence>(Sentences.Count);
-            var wordsCount = new List<int>(Sentences.Count);
+            var sentences = new List<Sentence>(Sentences.Count);
+            var wordsCounts = new List<int>(Sentences.Count);
 
             foreach (var sentence in Sentences)
             {
-                wordsCount.Add(sentence.Words.Count);
+                wordsCounts.Add(sentence.Words.Count);
             }
-            wordsCount.Sort();
+            wordsCounts.Sort();
 
-            foreach (var wordCount in wordsCount)
+            foreach (var wordCount in wordsCounts)
             {
                 foreach (var sentence in Sentences)
                 {
-                    if (wordCount == sentence.Words.Count) sortedSentences.Add(sentence);
+                    if (wordCount == sentence.Words.Count) sentences.Add(sentence);
                 }
             }
 
-            return sortedSentences.Distinct().ToList();
+            return sentences.Distinct().ToList();
         }
+
+
     }
 }
