@@ -50,16 +50,16 @@ namespace TextProcessing.Concordance
             char firstSymbol = concordance[0][0];
             finalConcordance.Add(firstSymbol.ToString().ToUpper());
 
-            foreach(var masseges in concordance)
+            foreach(var concordanceItem in concordance)
             {
-                if (masseges[0] != firstSymbol)
+                if (concordanceItem[0] != firstSymbol)
                 {
                     finalConcordance.Add(" ");
-                    firstSymbol = masseges[0];
+                    firstSymbol = concordanceItem[0];
                     finalConcordance.Add(firstSymbol.ToString().ToUpper());
 
                 }
-                finalConcordance.Add(" " + masseges);
+                finalConcordance.Add(" " + concordanceItem);
             }
 
             return finalConcordance;
