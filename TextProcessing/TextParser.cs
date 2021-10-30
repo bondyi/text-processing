@@ -88,7 +88,7 @@ namespace TextProcessing
         internal static List<ConcordanceWord> GetWords(string[] data)
         {
             var listData = data.ToList();
-            var concordanceWords = new List<ConcordanceWord>(listData.Count);
+            var concordanceWords = new List<ConcordanceWord>();
 
             foreach (var item in listData)
             {
