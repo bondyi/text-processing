@@ -21,9 +21,8 @@ namespace TextProcessing.Concordance
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(Data + ' ');
             for (int i = 0; i < 15 - Data.Length; i++) stringBuilder.Append('.');
-            stringBuilder.Append($" {MeetingCount} : ");
-            for (int i = 0; i < ID.Count; ++i) ID[i] += 1;
-            stringBuilder.Append(string.Join(" ", ID));
+            stringBuilder.Append($" {MeetingCount} :");
+            for (int i = 0; i < ID.Count; ++i) stringBuilder.Append(" " + (ID[i] + 1));
             return stringBuilder.ToString();
         }
     }
