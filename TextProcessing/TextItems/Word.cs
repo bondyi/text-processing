@@ -15,7 +15,7 @@ namespace TextProcessing.TextItems
         public override string ToString()
         {
             var wordBuilder = new StringBuilder();
-            foreach (var symbol in Symbols) wordBuilder.Append(symbol);
+            foreach (var symbol in Symbols) wordBuilder.Append(symbol.ToString());
             return wordBuilder.ToString();
         }
     }
