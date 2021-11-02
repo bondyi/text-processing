@@ -31,5 +31,6 @@ namespace TextProcessing.TextItems
         }
 
         public override string ToString() => _symbol.ToString();
+        public char ToChar() => _symbol;
     }
 }
