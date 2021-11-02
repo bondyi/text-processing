@@ -8,7 +8,7 @@ namespace TextProcessing.TextItems
     public class Sentence
     {
         public List<Word> Words { get; private set; }
-        public Dictionary<int, PunctuationMark> PunctuationMarks { get; private set; }
+        public Dictionary<int, PunctuationMark> PunctuationMarks { get; internal set; }
         public TypeSentence Type { get; private set; }
         
         internal Sentence(string sentence)
